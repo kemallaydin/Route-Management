@@ -5,6 +5,7 @@ import com.kemalaydin.routemanagement.exception.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -26,6 +27,7 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
                 .status(HttpStatus.FORBIDDEN.value())
                 .message("You do not have permission to access this resource")
                 .timestamp(Instant.now().toString())
+                .traceId(MDC.get("traceId"))
                 .build();
 
         response.setStatus(HttpStatus.FORBIDDEN.value());
