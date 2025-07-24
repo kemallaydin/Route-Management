@@ -9,5 +9,4 @@ class RouteManagementApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }

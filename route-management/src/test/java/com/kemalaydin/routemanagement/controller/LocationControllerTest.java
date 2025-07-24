@@ -214,9 +214,17 @@ class LocationControllerTest {
                 .code("SAW")
                 .build();
 
+        PagedResponse<GetLocationResponse> pagedResponse = PagedResponse.<GetLocationResponse>builder()
+                .content(List.of(response1, response2))
+                .pageNumber(page)
+                .pageSize(size)
+                .totalElements(locationList.size())
+                .totalPages(1)
+                .last(true)
+                .build();
+
         Mockito.when(locationService.getAllLocations(pageable)).thenReturn(locationPage);
-        Mockito.when(locationConverter.modelToGetLocationResponse(location1)).thenReturn(response1);
-        Mockito.when(locationConverter.modelToGetLocationResponse(location2)).thenReturn(response2);
+        Mockito.when(locationConverter.pageToPagedResponse(locationPage)).thenReturn(pagedResponse);
 
         mockMvc.perform(get("/locations")
                         .param("page", String.valueOf(page))
